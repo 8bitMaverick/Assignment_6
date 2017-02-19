@@ -5,6 +5,7 @@ public class Foothill
 {
    public static void main (String[] args)
    {
+      /*
       // Stack sample output
       Stack stk = new Stack();
       StackNode p;
@@ -51,41 +52,64 @@ public class Foothill
          else
             System.out.print("(empty stack) ");
       System.out.println();
+      */
+      // Queue sample output
+      Queue stk1 = new Queue();
+      Node p1;
+
+      // build the stack
+      for (int k = 0; k < 5; k++)
+      {
+         p1 = new Node("" + k);
+         stk1.add(p1);
+         System.out.print(p1.toString());
+      }
+      System.out.println();
+
+      // show the stack, deleting as you pop
+      while ( (p1 = stk1.remove()) != null)
+      {
+         System.out.print("oldest: " + p1.toString());
+         System.out.println();
+      }
    }
 }
 
 //Class Queue ---------------------------------------
 class Queue
 {
-   // pointer to first node in stack
-   private Node head, tail;
+   // pointers to first node in stack and last node in the stack
+   private Node youngest, oldest;
 
    // constructor
    public Queue()
    {
-      head = null;
+      youngest = null;
+      oldest = null;
    }
 
    public void add(Node newNode)
    {   
       if (newNode == null) 
          return;   // emergency return
-      newNode.next = head;
-      head = newNode;
+      newNode.next = youngest;
+      youngest = newNode;
+      if (oldest == null)
+         oldest = newNode;
+      oldest.next = newNode.next;
    }  
 
    public Node remove()
    {
-      Node temp1, temp2;
+      Node temp;
 
-      temp1 = head;
-      temp2 = tail;
-      if (head != null)
+      temp = oldest;
+      if (oldest != null)
       {
-         head = head.next; 
-         temp1.next = null; // don't give client access to stack!
+         oldest = oldest.next; 
+         temp.next = null; // don't give client access to stack!
       }
-      return temp1;      
+      return temp;      
    }
 
    // console display
@@ -93,9 +117,9 @@ class Queue
    {
       Node p;
       String queueString = "";
-
+      
       // Display all the nodes in the stack
-      for( p = head; p != null; p = p.next )
+      for( p = youngest; p != null; p = p.next )
          queueString = queueString + p.toString();
       
       return queueString;
@@ -107,18 +131,26 @@ class Node
 {
    // data (we allow Stack class public access)
    protected Node next;
+   protected String nodeString;
 
+   // constructor
+   public Node(String nodeString)
+   {
+      next = null;
+      this.nodeString = nodeString;
+   }
+   
    // constructor
    public Node()
    {
       next = null;
+      this.nodeString = "(generic node) ";
    }
 
    // console display
    public String toString()
    {
-      String nodeString = "(generic node) ";
-      return nodeString;
+      return this.nodeString;
    }
 }
 
