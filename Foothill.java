@@ -1,5 +1,6 @@
 import java.util.*;
 import java.text.*;
+import javax.swing.*;
 
 public class Foothill
 {
@@ -65,12 +66,20 @@ public class Foothill
          System.out.print(p1.toString());
       }
       System.out.println();
-
+      
+      try
+      {
       // show the stack, deleting as you pop
       while ( (p1 = stk1.remove()) != null)
       {
          System.out.print("oldest: " + p1.toString());
          System.out.println();
+      }
+      }
+      catch(NullPointerException ex)
+      {
+         System.out.println("Queue is empty.");
+         // put contingency value into result
       }
    }
 }
@@ -89,27 +98,28 @@ class Queue
    }
 
    public void add(Node newNode)
-   {   
-      if (newNode == null) 
-         return;   // emergency return
-      newNode.next = youngest;
-      youngest = newNode;
+   {
+      // Emergency return
+      if (newNode == null)
+         return;
+      
       if (oldest == null)
          oldest = newNode;
-      oldest.next = newNode.next;
+
+      if (youngest != null)
+         youngest.next = newNode;
+      
+      youngest = newNode;
    }  
 
    public Node remove()
    {
-      Node temp;
-
-      temp = oldest;
-      if (oldest != null)
-      {
-         oldest = oldest.next; 
-         temp.next = null; // don't give client access to stack!
-      }
-      return temp;      
+      Node temp = oldest;
+      
+      oldest = temp.next;
+      temp.next = null;
+      
+      return temp;    
    }
 
    // console display
@@ -153,6 +163,8 @@ class Node
       return this.nodeString;
    }
 }
+
+
 
 //Class Stack ---------------------------------------
 class Stack
