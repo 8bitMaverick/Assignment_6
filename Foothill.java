@@ -88,13 +88,16 @@ class Queue
    }
 
    // console display
-   public void showQueue()
+   public String toString()
    {
       Node p;
+      String queueString = "";
 
       // Display all the nodes in the stack
       for( p = top; p != null; p = p.next )
-         p.toString();
+         queueString = queueString + p.toString();
+      
+      return queueString;
    }
 }
 
