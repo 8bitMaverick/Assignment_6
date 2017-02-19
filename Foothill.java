@@ -58,33 +58,34 @@ public class Foothill
 class Queue
 {
    // pointer to first node in stack
-   private Node top;
+   private Node head, tail;
 
    // constructor
    public Queue()
    {
-      top = null;
+      head = null;
    }
 
-   public void push(Node newNode)
+   public void add(Node newNode)
    {   
       if (newNode == null) 
          return;   // emergency return
-      newNode.next = top;
-      top = newNode;
+      newNode.next = head;
+      head = newNode;
    }  
 
-   public Node pop()
+   public Node remove()
    {
-      Node temp;
+      Node temp1, temp2;
 
-      temp = top;
-      if (top != null)
+      temp1 = head;
+      temp2 = tail;
+      if (head != null)
       {
-         top = top.next; 
-         temp.next = null; // don't give client access to stack!
+         head = head.next; 
+         temp1.next = null; // don't give client access to stack!
       }
-      return temp;      
+      return temp1;      
    }
 
    // console display
@@ -94,7 +95,7 @@ class Queue
       String queueString = "";
 
       // Display all the nodes in the stack
-      for( p = top; p != null; p = p.next )
+      for( p = head; p != null; p = p.next )
          queueString = queueString + p.toString();
       
       return queueString;
