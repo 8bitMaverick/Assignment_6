@@ -54,6 +54,69 @@ public class Foothill
    }
 }
 
+//Class Queue ---------------------------------------
+class Queue
+{
+   // pointer to first node in stack
+   private Node top;
+
+   // constructor
+   public Queue()
+   {
+      top = null;
+   }
+
+   public void push(Node newNode)
+   {   
+      if (newNode == null) 
+         return;   // emergency return
+      newNode.next = top;
+      top = newNode;
+   }  
+
+   public Node pop()
+   {
+      Node temp;
+
+      temp = top;
+      if (top != null)
+      {
+         top = top.next; 
+         temp.next = null; // don't give client access to stack!
+      }
+      return temp;      
+   }
+
+   // console display
+   public void showQueue()
+   {
+      Node p;
+
+      // Display all the nodes in the stack
+      for( p = top; p != null; p = p.next )
+         p.show();
+   }
+}
+
+//Class Node  ----------------------------------
+class Node
+{
+   // data (we allow Stack class public access)
+   protected Node next;
+
+   // constructor
+   public Node()
+   {
+      next = null;
+   }
+
+   // console display
+   public void show()
+   {
+      System.out.print( "(generic node) ");
+   }
+}
+
 //Class Stack ---------------------------------------
 class Stack
 {
@@ -117,6 +180,7 @@ class StackNode
    }
 }
 
+//Class FloatStack  ----------------------------------
 class FloatStack extends Stack
 {
    public static final float STACK_EMPTY = Float.MIN_VALUE;
@@ -144,6 +208,7 @@ class FloatStack extends Stack
    }
 }
 
+//Class FloatNode  ----------------------------------
 class FloatNode extends StackNode
 {
    // additional data for subclass
