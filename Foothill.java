@@ -94,7 +94,7 @@ class Queue
 
       // Display all the nodes in the stack
       for( p = top; p != null; p = p.next )
-         p.show();
+         p.toString();
    }
 }
 
@@ -111,9 +111,10 @@ class Node
    }
 
    // console display
-   public void show()
+   public String toString()
    {
-      System.out.print( "(generic node) ");
+      String nodeString = "(generic node) ";
+      return nodeString;
    }
 }
 
