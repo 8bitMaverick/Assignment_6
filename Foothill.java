@@ -1,5 +1,7 @@
 public class Foothill
 {
+   public static char[] valueRanks = { '2', '3', '4', '5', '6'};
+   
    public static void main (String[] args)
    {
       // Queue sample output
@@ -7,11 +9,11 @@ public class Foothill
       Card p1;
 
       // build the stack
-      for (int k = 0; k < 5; k++)
+      for (char rank : valueRanks)
       {
-         p1 = new Card();
+         p1 = new Card(rank, Card.Suit.hearts);
          stk1.addCard(p1);
-         System.out.print(p1.toString());
+         System.out.println("Added: " + stk1.toString());
       }
       System.out.println();
 
@@ -20,7 +22,7 @@ public class Foothill
          // show the stack, deleting as you pop
          while ( (p1 = stk1.removeCard()) != null)
          {
-            System.out.print("oldest: " + p1.toString());
+            System.out.print("Removed: " + stk1.toString());
             System.out.println();
          }
       }
@@ -134,8 +136,7 @@ class CardNode extends Node
    // overriding toString()
    public String toString()
    {
-      String result = super.toString();
-      return result;
+      return card.toString();
    }
 }
 
@@ -157,11 +158,7 @@ class CardQueue extends Queue
    public Card removeCard()
          throws QueueEmptyException
    {
-      CardNode card = (CardNode)remove();
-      // remove a card from Queue
-      if (card == null)
-         throw new QueueEmptyException();
-      return card.getCard();
+      return ((CardNode)remove()).getCard();
    }
 }
 
