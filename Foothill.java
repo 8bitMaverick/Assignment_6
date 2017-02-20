@@ -1,40 +1,20 @@
+/* Courtney Hunt JAVA 1B Assignment 6 Foothill College
+ * 
+ * This adds and removes cards to/from a CardQueue class (an extension of the
+ * Queue class) which creates nodes via the CardNode class (an extension of the
+ * Node class). Sample output adds 5 valid cards to the CardQueue, prints the
+ * CardQueue to the console, then removes the 5 cards in a FIFO
+ * (first-in-first-out) manner and displays them to the console as
+ * removed. QueueEmptyException has been added and will display to console
+ * when the Queue is empty.
+ */
+
 public class Foothill
 {
    public static char[] valueRanks = { '2', '3', '4', '5', '6'};
-   
+
    public static void main (String[] args)
    {
-      // Queue sample output
-      Queue stk2 = new Queue();
-      Node p2;
-
-      // build the stack
-      for (int k = 0; k < 5; k++)
-      {
-         p2 = new Node("" + k);
-         stk2.add(p2);
-         System.out.println("Added: " + p2.toString());
-      }
-      System.out.println();
-      
-      System.out.println("Queue: " + stk2.toString());
-  
-      try
-      {
-         // show the stack, deleting as you pop
-         while ((p2 = stk2.remove()) != null)
-         {
-            System.out.print("Removed: " + p2.toString());
-            System.out.println();
-         }
-      }
-      catch(QueueEmptyException ex)
-      {
-         System.out.println("Queue is empty.");
-         // put contingency value into result
-      }
-      
-      
       // CardQueue sample output
       CardQueue queue1 = new CardQueue();
       Card p1;
@@ -47,16 +27,14 @@ public class Foothill
          {
             queue1.addCard(p1);
          }
-         catch(QueueEmptyException ex)
+         catch(CardEmptyException ex)
          {
             System.out.println("Card is null.");
          }
-         System.out.println("Added: " + p1.toString());
       }
-      System.out.println();
       System.out.println("Queue: " + queue1.toString());
       System.out.println();
-  
+
       try
       {
          // show the stack, deleting as you pop
@@ -80,17 +58,11 @@ class Node
    protected Node next;
    protected String nodeString;
 
-   // 1 param constructor (mostly for testing order of adding/removing)
-   public Node(String nodeString)
-   {
-      next = null;
-      this.nodeString = nodeString;
-   }
-   
    // constructor
    public Node()
    {
-      this(DEFAULT_NODE);
+      next = null;
+      this.nodeString = DEFAULT_NODE;
    }
 
    // console display
@@ -133,12 +105,12 @@ class Queue
    {
       if (oldest == null)
          throw new QueueEmptyException();
-      
+
       Node temp = oldest;
-      
+
       oldest = temp.next;
       temp.next = null;
-      
+
       return temp;
    }
 
@@ -156,6 +128,10 @@ class Queue
 }
 
 class QueueEmptyException extends Exception
+{
+}
+
+class CardEmptyException extends Exception
 {
 }
 
@@ -189,11 +165,11 @@ class CardNode extends Node
 class CardQueue extends Queue
 {
    public void addCard(Card card)
-         throws QueueEmptyException
+         throws CardEmptyException
    {
       // don't allow pushing of null
       if (card == null)
-         throw new QueueEmptyException();
+         throw new CardEmptyException();
       // create a new CardNode
       CardNode cardNode = new CardNode(card);
 
