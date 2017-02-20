@@ -1,60 +1,7 @@
-import java.util.*;
-import java.text.*;
-import javax.swing.*;
-import java.lang.*;
-
 public class Foothill
 {
    public static void main (String[] args)
    {
-      /*
-      // Stack sample output
-      Stack stk = new Stack();
-      StackNode p;
-
-      // build the stack
-      for (int k = 0; k < 5; k++)
-      {
-         p = new StackNode();
-         stk.push(p);
-      }
-
-      // show the stack, deleting as you pop
-      while ( (p = stk.pop()) != null)
-         p.show();
-      System.out.println();
-
-      // FloatNode sample output
-      FloatNode flt1 = new FloatNode(3.33F), 
-            flt2 = new FloatNode(4.44F), flt3 = new FloatNode(5.55F), q;
-
-      // link up our three FloatNodes
-      flt1.next = flt2;
-      flt2.next = flt3; 
-
-      // show the stack
-      for ( q = flt1; q != null; q = (FloatNode)(q.next) )
-      {
-         q.show();
-      }
-      System.out.println();
-
-      // FloatStack sample output
-      FloatStack fstk = new FloatStack();
-      float f;
-
-      fstk.pushFloat(1.1F);
-      fstk.pushFloat(2.2F);
-      fstk.pushFloat(3.3F);
-      fstk.pushFloat(4.4F);
-
-      for (int k = 0; k < 5; k++)
-         if ( (f = fstk.popFloat()) != FloatStack.STACK_EMPTY)
-            System.out.print( f + " ");
-         else
-            System.out.print("(empty stack) ");
-      System.out.println();
-      */
       // Queue sample output
       CardQueue stk1 = new CardQueue();
       Card p1;
@@ -67,21 +14,42 @@ public class Foothill
          System.out.print(p1.toString());
       }
       System.out.println();
-      
+
       try
       {
-      // show the stack, deleting as you pop
-      while ( (p1 = stk1.removeCard()) != null)
-      {
-         System.out.print("oldest: " + p1.toString());
-         System.out.println();
-      }
+         // show the stack, deleting as you pop
+         while ( (p1 = stk1.removeCard()) != null)
+         {
+            System.out.print("oldest: " + p1.toString());
+            System.out.println();
+         }
       }
       catch(QueueEmptyException ex)
       {
          System.out.println("Queue is empty.");
          // put contingency value into result
       }
+   }
+}
+
+//Class Node  ----------------------------------
+class Node
+{
+   // data (we allow Stack class public access)
+   protected Node next;
+   protected String nodeString;
+
+   // constructor
+   public Node()
+   {
+      next = null;
+      this.nodeString = "(generic node) ";
+   }
+
+   // console display
+   public String toString()
+   {
+      return this.nodeString;
    }
 }
 
@@ -103,13 +71,13 @@ class Queue
       // Emergency return
       if (newNode == null)
          return;
-      
+
       if (oldest == null)
          oldest = newNode;
 
       if (youngest != null)
          youngest.next = newNode;
-      
+
       youngest = newNode;
    }  
 
@@ -117,12 +85,12 @@ class Queue
          throws QueueEmptyException
    {
       Node temp = oldest;
-      
+
       oldest = temp.next;
       if (oldest == null)
          throw new QueueEmptyException();
       temp.next = null;
-      
+
       return temp;    
    }
 
@@ -131,213 +99,69 @@ class Queue
    {
       Node p;
       String queueString = "";
-      
+
       // Display all the nodes in the stack
       for( p = youngest; p != null; p = p.next )
          queueString = queueString + p.toString();
-      
+
       return queueString;
    }
 }
-
-//Class Node  ----------------------------------
-class Node
-{
-   // data (we allow Stack class public access)
-   protected Node next;
-   protected String nodeString;
-   
-   // constructor
-   public Node()
-   {
-      next = null;
-      this.nodeString = "(generic node) ";
-   }
-
-   // console display
-   public String toString()
-   {
-      return this.nodeString;
-   }
-}
-
 
 class QueueEmptyException extends Exception
 {
 }
 
-//Class CardQueue  ----------------------------------
-class CardQueue extends Queue
-{
- public void addCard(Card card)
- {
-    // don't allow pushing of Float.MIN_VALUE 
-    if (card == null)
-       return;    // could throw an exception when we learn how
-    // create a new FloatNode
-    CardNode cardNode = new CardNode(card);
-
-    // add the CardNode onto the queue (base class call)
-    super.add(cardNode);
- }
-
- public Card removeCard()
-       throws QueueEmptyException
- {
-    CardNode card = (CardNode)remove();
-    // remove a card from Queue
-    if (card == null)
-       throw new QueueEmptyException();
-    return card.getCard();
- }
-}
-
 //Class CardNode  ----------------------------------
 class CardNode extends Node
 {
- // additional data for subclass
- private Card card;
-
- // constructor
- public CardNode(Card card)
- {
-    super();  // constructor call to base class
-    this.card = card;
- }
-
- // accessor
- public Card getCard()
- {
-    return card;
- }
-
- // overriding toString()
- public String toString()
- {
-    String result = super.toString();
-    return result;
- }
-}
-
-
-
-//Class Stack ---------------------------------------
-class Stack
-{
-   // pointer to first node in stack
-   private StackNode top;
-
-   // constructor
-   public Stack()
-   {
-      top = null;
-   }
-
-   public void push(StackNode newNode)
-   {   
-      if (newNode == null) 
-         return;   // emergency return
-      newNode.next = top;
-      top = newNode;
-   }  
-
-   public StackNode pop()
-   {
-      StackNode temp;
-
-      temp = top;
-      if (top != null)
-      {
-         top = top.next; 
-         temp.next = null; // don't give client access to stack!
-      }
-      return temp;      
-   }
-
-   // console display
-   public void showStack()
-   {
-      StackNode p;
-
-      // Display all the nodes in the stack
-      for( p = top; p != null; p = p.next )
-         p.show();
-   }
-}
-
-//Class StackNode  ----------------------------------
-class StackNode
-{
-   // data (we allow Stack class public access)
-   protected StackNode next;
-
-   // constructor
-   public StackNode()
-   {
-      next = null;
-   }
-
-   // console display
-   public void show()
-   {
-      System.out.print( "(generic node) ");
-   }
-}
-
-//Class FloatStack  ----------------------------------
-class FloatStack extends Stack
-{
-   public static final float STACK_EMPTY = Float.MIN_VALUE;
-
-   public void pushFloat(float x)
-   {
-      // don't allow pushing of Float.MIN_VALUE 
-      if (x == Float.MIN_VALUE)
-         return;    // could throw an exception when we learn how
-      // create a new FloatNode
-      FloatNode fp = new FloatNode(x);
-
-      // push the StackNode onto the stack (base class call)
-      super.push(fp);
-   }
-
-   public float popFloat()
-   {
-      // pop a node
-      FloatNode fp = (FloatNode)pop();
-      if (fp == null)
-         return STACK_EMPTY;
-      else
-         return fp.getData();
-   }
-}
-
-//Class FloatNode  ----------------------------------
-class FloatNode extends StackNode
-{
    // additional data for subclass
-   private float data;
+   private Card card;
 
    // constructor
-   public FloatNode(float x)
+   public CardNode(Card card)
    {
       super();  // constructor call to base class
-      data = x;
+      this.card = card;
    }
 
    // accessor
-   public float getData()
+   public Card getCard()
    {
-      return data;
+      return card;
    }
 
-   // overriding show()
-   public void show()
+   // overriding toString()
+   public String toString()
    {
-      NumberFormat tidy = NumberFormat.getInstance(Locale.US);
-      tidy.setMaximumFractionDigits(4);
+      String result = super.toString();
+      return result;
+   }
+}
 
-      System.out.print("[" + tidy.format(data) + "] ");
+//Class CardQueue  ----------------------------------
+class CardQueue extends Queue
+{
+   public void addCard(Card card)
+   {
+      // don't allow pushing of Float.MIN_VALUE 
+      if (card == null)
+         return;    // could throw an exception when we learn how
+      // create a new FloatNode
+      CardNode cardNode = new CardNode(card);
+
+      // add the CardNode onto the queue (base class call)
+      super.add(cardNode);
+   }
+
+   public Card removeCard()
+         throws QueueEmptyException
+   {
+      CardNode card = (CardNode)remove();
+      // remove a card from Queue
+      if (card == null)
+         throw new QueueEmptyException();
+      return card.getCard();
    }
 }
 
