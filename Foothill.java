@@ -1,6 +1,7 @@
 import java.util.*;
 import java.text.*;
 import javax.swing.*;
+import java.lang.*;
 
 public class Foothill
 {
@@ -155,6 +156,38 @@ class Node
    {
       return this.nodeString;
    }
+}
+
+
+class QueueEmptyException extends Exception
+{
+}
+
+//Class CardQueue  ----------------------------------
+class CardQueue extends Queue
+{
+ public void addCard(Card card)
+       throws QueueEmptyException
+ {
+    // don't allow pushing of Float.MIN_VALUE 
+    if (card == null)
+       return;    // could throw an exception when we learn how
+    // create a new FloatNode
+    CardNode cardNode = new CardNode(card);
+
+    // add the CardNode onto the queue (base class call)
+    super.add(cardNode);
+ }
+
+ public Card removeCard()
+       throws QueueEmptyException
+ {
+    CardNode card = (CardNode)remove();
+    // remove a card from Queue
+    if (card == null)
+       throw new QueueEmptyException();
+    return card.getCard();
+ }
 }
 
 //Class CardNode  ----------------------------------
