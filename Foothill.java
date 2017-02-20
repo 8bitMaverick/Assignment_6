@@ -61,7 +61,7 @@ public class Foothill
       // build the stack
       for (int k = 0; k < 5; k++)
       {
-         p1 = new Node("" + k);
+         p1 = new Node();
          stk1.add(p1);
          System.out.print(p1.toString());
       }
@@ -142,13 +142,6 @@ class Node
    // data (we allow Stack class public access)
    protected Node next;
    protected String nodeString;
-
-   // constructor
-   public Node(String nodeString)
-   {
-      next = null;
-      this.nodeString = nodeString;
-   }
    
    // constructor
    public Node()
@@ -162,6 +155,33 @@ class Node
    {
       return this.nodeString;
    }
+}
+
+//Class CardNode  ----------------------------------
+class CardNode extends Node
+{
+ // additional data for subclass
+ private Card card;
+
+ // constructor
+ public CardNode(Card card)
+ {
+    super();  // constructor call to base class
+    this.card = card;
+ }
+
+ // accessor
+ public Card getCard()
+ {
+    return card;
+ }
+
+ // overriding toString()
+ public String toString()
+ {
+    String result = super.toString();
+    return result;
+ }
 }
 
 
