@@ -56,14 +56,14 @@ public class Foothill
       System.out.println();
       */
       // Queue sample output
-      Queue stk1 = new Queue();
-      Node p1;
+      CardQueue stk1 = new CardQueue();
+      Card p1;
 
       // build the stack
       for (int k = 0; k < 5; k++)
       {
-         p1 = new Node();
-         stk1.add(p1);
+         p1 = new Card();
+         stk1.addCard(p1);
          System.out.print(p1.toString());
       }
       System.out.println();
@@ -71,13 +71,13 @@ public class Foothill
       try
       {
       // show the stack, deleting as you pop
-      while ( (p1 = stk1.remove()) != null)
+      while ( (p1 = stk1.removeCard()) != null)
       {
          System.out.print("oldest: " + p1.toString());
          System.out.println();
       }
       }
-      catch(NullPointerException ex)
+      catch(QueueEmptyException ex)
       {
          System.out.println("Queue is empty.");
          // put contingency value into result
@@ -114,10 +114,13 @@ class Queue
    }  
 
    public Node remove()
+         throws QueueEmptyException
    {
       Node temp = oldest;
       
       oldest = temp.next;
+      if (oldest == null)
+         throw new QueueEmptyException();
       temp.next = null;
       
       return temp;    
@@ -167,7 +170,6 @@ class QueueEmptyException extends Exception
 class CardQueue extends Queue
 {
  public void addCard(Card card)
-       throws QueueEmptyException
  {
     // don't allow pushing of Float.MIN_VALUE 
     if (card == null)
