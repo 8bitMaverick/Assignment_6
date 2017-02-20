@@ -13,16 +13,16 @@ public class Foothill
       {
          p1 = new Card(rank, Card.Suit.hearts);
          stk1.addCard(p1);
-         System.out.println("Added: " + stk1.toString());
+         System.out.println("Added: " + p1.toString());
       }
       System.out.println();
-
+  
       try
       {
          // show the stack, deleting as you pop
-         while ( (p1 = stk1.removeCard()) != null)
+         while ((p1 = stk1.removeCard()) != null)
          {
-            System.out.print("Removed: " + stk1.toString());
+            System.out.print("Removed: " + p1.toString());
             System.out.println();
          }
       }
@@ -37,7 +37,6 @@ public class Foothill
 //Class Node  ----------------------------------
 class Node
 {
-   // data (we allow Stack class public access)
    protected Node next;
    protected String nodeString;
 
@@ -86,14 +85,15 @@ class Queue
    public Node remove()
          throws QueueEmptyException
    {
-      Node temp = oldest;
-
-      oldest = temp.next;
       if (oldest == null)
          throw new QueueEmptyException();
+      
+      Node temp = oldest;
+      
+      oldest = temp.next;
       temp.next = null;
-
-      return temp;    
+      
+      return temp;
    }
 
    // console display
@@ -103,7 +103,7 @@ class Queue
       String queueString = "";
 
       // Display all the nodes in the stack
-      for( p = youngest; p != null; p = p.next )
+      for( p = oldest; p != null; p = p.next )
          queueString = queueString + p.toString();
 
       return queueString;
