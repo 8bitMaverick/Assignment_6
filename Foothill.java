@@ -5,24 +5,26 @@ public class Foothill
    public static void main (String[] args)
    {
       // Queue sample output
-      CardQueue stk1 = new CardQueue();
-      Card p1;
+      Queue stk2 = new Queue();
+      Node p2;
 
       // build the stack
-      for (char rank : valueRanks)
+      for (int k = 0; k < 5; k++)
       {
-         p1 = new Card(rank, Card.Suit.hearts);
-         stk1.addCard(p1);
-         System.out.println("Added: " + p1.toString());
+         p2 = new Node("" + k);
+         stk2.add(p2);
+         System.out.println("Added: " + p2.toString());
       }
       System.out.println();
+      
+      System.out.println("Queue: " + stk2.toString());
   
       try
       {
          // show the stack, deleting as you pop
-         while ((p1 = stk1.removeCard()) != null)
+         while ((p2 = stk2.remove()) != null)
          {
-            System.out.print("Removed: " + p1.toString());
+            System.out.print("Removed: " + p2.toString());
             System.out.println();
          }
       }
@@ -31,20 +33,64 @@ public class Foothill
          System.out.println("Queue is empty.");
          // put contingency value into result
       }
+      
+      
+      // CardQueue sample output
+      CardQueue queue1 = new CardQueue();
+      Card p1;
+
+      // build the stack
+      for (char rank : valueRanks)
+      {
+         p1 = new Card(rank, Card.Suit.hearts);
+         try
+         {
+            queue1.addCard(p1);
+         }
+         catch(QueueEmptyException ex)
+         {
+            System.out.println("Card is null.");
+         }
+         System.out.println("Added: " + p1.toString());
+      }
+      System.out.println();
+      System.out.println("Queue: " + queue1.toString());
+      System.out.println();
+  
+      try
+      {
+         // show the stack, deleting as you pop
+         while ((p1 = queue1.removeCard()) != null)
+         {
+            System.out.print("Removed: " + p1.toString());
+            System.out.println();
+         }
+      }
+      catch(QueueEmptyException ex)
+      {
+         System.out.println("Queue is empty.");
+      }
    }
 }
 
 //Class Node  ----------------------------------
 class Node
 {
+   private static final String DEFAULT_NODE = "(generic node)";
    protected Node next;
    protected String nodeString;
 
+   // 1 param constructor (mostly for testing order of adding/removing)
+   public Node(String nodeString)
+   {
+      next = null;
+      this.nodeString = nodeString;
+   }
+   
    // constructor
    public Node()
    {
-      next = null;
-      this.nodeString = "(generic node) ";
+      this(DEFAULT_NODE);
    }
 
    // console display
@@ -57,7 +103,7 @@ class Node
 //Class Queue ---------------------------------------
 class Queue
 {
-   // pointers to first node in stack and last node in the stack
+   // pointers to head node in stack and tail node in the stack
    private Node youngest, oldest;
 
    // constructor
@@ -101,10 +147,9 @@ class Queue
    {
       Node p;
       String queueString = "";
-
       // Display all the nodes in the stack
       for( p = oldest; p != null; p = p.next )
-         queueString = queueString + p.toString();
+         queueString = queueString + p.toString() + " | ";
 
       return queueString;
    }
@@ -144,11 +189,12 @@ class CardNode extends Node
 class CardQueue extends Queue
 {
    public void addCard(Card card)
+         throws QueueEmptyException
    {
-      // don't allow pushing of Float.MIN_VALUE 
+      // don't allow pushing of null
       if (card == null)
-         return;    // could throw an exception when we learn how
-      // create a new FloatNode
+         throw new QueueEmptyException();
+      // create a new CardNode
       CardNode cardNode = new CardNode(card);
 
       // add the CardNode onto the queue (base class call)
