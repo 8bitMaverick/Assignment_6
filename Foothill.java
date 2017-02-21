@@ -21,7 +21,7 @@ public class Foothill
       CardQueue queue1 = new CardQueue();
       Card p1;
 
-      // build the stack
+      // build the queue
       for (char rank : valueRanks)
       {
          p1 = new Card(rank, Card.Suit.hearts);
@@ -39,7 +39,7 @@ public class Foothill
 
       try
       {
-         // show the stack, deleting as you pop
+         // show the stack, deleting as you remove
          while ((p1 = queue1.removeCard()) != null)
          {
             System.out.print("Removed: " + p1.toString());
@@ -86,7 +86,7 @@ class Queue
       youngest = null;
       oldest = null;
    }
-
+   
    public void add(Node newNode)
    {
       // Emergency return
