@@ -33,6 +33,10 @@ public class Foothill
          {
             System.out.println("Card is null.");
          }
+         catch(QueueEmptyException ex)
+         {
+            System.out.println("Queue is empty.");
+         }
       }
       System.out.println("Queue: " + queue1.toString());
       System.out.println();
@@ -88,10 +92,11 @@ class Queue
    }
    
    public void add(Node newNode)
+      throws QueueEmptyException
    {
       // Emergency return
       if (newNode == null)
-         return;
+         throw new QueueEmptyException();
 
       if (oldest == null)
          oldest = newNode;
@@ -167,7 +172,7 @@ class CardNode extends Node
 class CardQueue extends Queue
 {
    public void addCard(Card card)
-         throws CardEmptyException
+         throws QueueEmptyException, CardEmptyException
    {
       // don't allow pushing of null
       if (card == null)
